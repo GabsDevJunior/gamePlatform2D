@@ -8,10 +8,14 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rig;
 
+    public float maxSpeed;
+    public float minSpeed;
     public float speed;
     public float forcejump;
 
     public Vector2 friction = new Vector2 (1f, 0f);
+
+    public healthBase health;
 
     [Header("Animation")]
     public float JumpScaleY = 1.5f;
@@ -26,21 +30,36 @@ public class Player : MonoBehaviour
     public bool onDoubleJump;
     void Update()
     {
-        jump();
-        walk();
+        if (!health._isDead)
+        {
+            jump();
+            walk();
+        }
         
     }
 
     void walk()
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = maxSpeed;
+        }
+        else
+        {
+            speed = minSpeed;
+        }
+
         if (Input.GetKey(KeyCode.D))
         {
             rig.velocity = new Vector2(speed, rig.velocity.y);
+  
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             rig.velocity = new Vector2(-speed, rig.velocity.y);
+            
+
         }
 
         if(rig.velocity.x > 0)
