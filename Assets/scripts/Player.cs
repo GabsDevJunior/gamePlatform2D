@@ -65,12 +65,21 @@ public class Player : MonoBehaviour
         if(rig.velocity.x > 0)
         {
             rig.velocity += friction;
+            transform.eulerAngles = new Vector2(0, 0);
         }
 
         if (rig.velocity.x < 0)
         {
             rig.velocity -= friction;
+            transform.eulerAngles = new Vector2(0, 180);
         }
+    }
+
+    void resetAnim()
+    {
+        rig.transform.localScale = new Vector2(1, 1);
+
+        DOTween.Kill(rig.transform);
     }
     void jump()
     {
@@ -81,18 +90,14 @@ public class Player : MonoBehaviour
                 rig.velocity = Vector2.up * forcejump;
                 onJump = true;
                 onDoubleJump = false;
-                rig.transform.localScale = Vector2.one;
-
-                DOTween.Kill(rig.transform);
+                resetAnim();
                 ScaleJump();
             }
             else if(!onDoubleJump)
             {
                 rig.velocity = Vector2.up * forcejump;
                     onDoubleJump = true;
-                    rig.transform.localScale = Vector2.one;
-
-                DOTween.Kill(rig.transform);
+                resetAnim();
                 ScaleJump();
             }
         }
@@ -110,6 +115,7 @@ public class Player : MonoBehaviour
     {
         rig.transform.DOScaleY(GroundAnimationY, AnimationDurationGround).SetLoops(2, LoopType.Yoyo).SetEase(ease);
         rig.transform.DOScaleX(GroundAnimationX, AnimationDurationGround).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+        
     }
 
     
@@ -118,10 +124,10 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.layer == 9)
         {
+          
+            resetAnim();
 
-            rig.transform.localScale = Vector2.one;
 
-            DOTween.Kill(rig.transform);
             animGround();
             onJump = false;
             onDoubleJump = true;
@@ -138,8 +144,7 @@ public class Player : MonoBehaviour
         {  
 
 
-            onJump = true;
-            onDoubleJump = false;
+            
         }
     }
 }
