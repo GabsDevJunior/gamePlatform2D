@@ -6,6 +6,7 @@ public class PlayerAnim : MonoBehaviour
 {
     private Animator anim;
     public Rigidbody2D rig;
+    public string BoolDeath = "death";
 
     private void Start()
     {
@@ -17,6 +18,19 @@ public class PlayerAnim : MonoBehaviour
     {
         animando();
     }
+
+    public void noDano()
+    {
+        anim.SetBool("dano", false);
+    }
+
+    public void dano()
+    {
+        anim.SetBool("dano", true);
+    }
+
+
+
 
     void animando()
     {

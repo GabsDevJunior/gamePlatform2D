@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     public float speed;
     public float forcejump;
 
+    public Vector3 initialRotation;
+
+    public projetilBase prefeab;
+
     public Vector2 friction = new Vector2 (1f, 0f);
 
     public healthBase health;
@@ -30,12 +34,10 @@ public class Player : MonoBehaviour
     public bool onDoubleJump;
     void Update()
     {
-        if (!health._isDead)
-        {
+
             jump();
             walk();
-        }
-        
+
     }
 
     void walk()
@@ -66,18 +68,21 @@ public class Player : MonoBehaviour
         {
             rig.velocity += friction;
             transform.eulerAngles = new Vector2(0, 0);
+            prefeab.side = 1;
         }
 
         if (rig.velocity.x < 0)
         {
             rig.velocity -= friction;
             transform.eulerAngles = new Vector2(0, 180);
+            prefeab.side = -1;
         }
     }
 
     void resetAnim()
     {
-        rig.transform.localScale = new Vector2(1, 1);
+
+        rig.transform.localScale = initialRotation;
 
         DOTween.Kill(rig.transform);
     }
